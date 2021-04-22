@@ -17,8 +17,9 @@ config :quizly_srv, QuizlySrv.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "8FRbfhqcJdrxAM58njCpLVNsBwitmtYvnFWaTVUYxxoOFQqw+HMnOSCtv8HiI/o1",
   render_errors: [view: QuizlySrv.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: QuizlySrv.PubSub,
-  live_view: [signing_salt: "4+9OMWth"]
+  pubsub_server: QuizlySrv.PubSub
+
+config :quizly_model, ecto_repos: [QuizlyModel.Repo]
 
 # Sample configuration:
 #

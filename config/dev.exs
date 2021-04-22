@@ -13,6 +13,13 @@ config :quizly_srv, QuizlySrv.Endpoint,
   check_origin: false,
   watchers: []
 
+config :quizly_model, QuizlyModel.Repo,
+  database: "quizly_db",
+  username: "quizly_web_user",
+  password: "quizly_web_user_password",
+  hostname: "localhost",
+  pool_size: 10
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
