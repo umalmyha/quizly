@@ -5,3 +5,6 @@ use Mix.Config
 config :quizly_srv, QuizlySrv.Endpoint,
   http: [port: 4002],
   server: false
+
+config :pbkdf2_elixir,
+  rounds: 1

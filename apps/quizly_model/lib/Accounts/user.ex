@@ -5,8 +5,9 @@ defmodule QuizlyModel.Accounts.User do
   alias QuizlyModel.Games.RoundScore
   alias QuizlyModel.Games.UserAnswer
 
+  @primary_key {:id, :binary_id, autogenerate: true}
   schema "users" do
-    field :usernamae, :string
+    field :username, :string
     field :name, :string
     field :surname, :string
     field :password, :string, virtual: true
@@ -17,13 +18,20 @@ defmodule QuizlyModel.Accounts.User do
     timestamps()
   end
 
-  def changeset(user, attrs \\ %{}) do
+  def changeset_for_create(user, attrs \\ %{}) do
     user
     |> cast(attrs, [:username, :name, :surname, :password])
-    |> validate_changeset()
+    |> validate_creation_changeset()
+    |> put_password_hash()
   end
 
-  defp validate_changeset(struct) do
+  def changeset_for_update(user, attrs \\ %{}) do
+    user
+    |> cast(attrs, [:name, :surname])
+    |> validate_update_changeset()
+  end
+
+  defp validate_creation_changeset(struct) do
     struct
     |> validate_required([:username, :name, :surname, :password])
     |> validate_format(:password, ~r/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*/,
@@ -31,5 +39,20 @@ defmodule QuizlyModel.Accounts.User do
         "Password must include at least one lowercase letter, one uppercase letter, and one digit"
     )
     |> unique_constraint([:username])
+  end
+
+  defp validate_update_changeset(struct) do
+    struct
+    |> validate_required([:name, :surname])
+  end
+
+  defp put_password_hash(struct) do
+    case struct do
+      %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
+        put_change(struct, :password_hash, Pbkdf2.hash_pwd_salt(password))
+
+      _ ->
+        struct
+    end
   end
 end

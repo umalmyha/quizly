@@ -5,6 +5,8 @@ defmodule QuizlyModel.Games.UserAnswer do
   alias QuizlyModel.Games.Round
   alias QuizlyModel.Quizzes.Option
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "user_answers" do
     belongs_to :user, User
     belongs_to :round, Round

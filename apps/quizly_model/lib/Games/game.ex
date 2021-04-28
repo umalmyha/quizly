@@ -4,6 +4,8 @@ defmodule QuizlyModel.Games.Game do
   alias QuizlyModel.Quizzes.Quiz
   alias QuizlyModel.Games.Round
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "games" do
     field :round_seconds, :integer, default: 10
     field :started, :utc_datetime

@@ -5,6 +5,8 @@ defmodule QuizlyModel.Quizzes.Question do
   alias QuizlyModel.Quizzes.Option
   alias QuizlyModel.Games.Round
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "questions" do
     field :text, :string
     belongs_to :quiz, Quiz

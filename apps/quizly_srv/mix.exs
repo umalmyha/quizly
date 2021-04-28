@@ -44,7 +44,8 @@ defmodule QuizlySrv.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:guardian, "~> 2.0"}
+      {:guardian, "~> 2.0"},
+      {:quizly_model, in_umbrella: true}
     ]
   end
 

@@ -10,13 +10,13 @@ defmodule QuizlyModel.Accounts do
 
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> User.changeset_for_create(attrs)
     |> Repo.insert()
   end
 
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> User.changeset_for_update(attrs)
     |> Repo.update()
   end
 end

@@ -6,6 +6,8 @@ defmodule QuizlyModel.Games.Round do
   alias QuizlyModel.Games.RoundScore
   alias QuizlyModel.Games.UserAnswer
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "rounds" do
     field :number, :integer
     belongs_to :question, Question

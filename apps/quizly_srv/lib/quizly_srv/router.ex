@@ -7,6 +7,11 @@ defmodule QuizlySrv.Router do
 
   scope "/api", QuizlySrv do
     pipe_through :api
+
+    resources "/users", UserController, except: [:new, :edit]
+    resources "/quizzes", QuizController, except: [:new, :edit]
+    resources "/questions", QuestionController, except: [:new, :edit]
+    resources "/options", OptionController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development

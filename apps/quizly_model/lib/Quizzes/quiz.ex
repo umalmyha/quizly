@@ -5,10 +5,12 @@ defmodule QuizlyModel.Quizzes.Quiz do
   alias QuizlyModel.Quizzes.Question
   alias QuizlyModel.Games.Game
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "quizzes" do
     field :name, :string
     field :description, :string
-    belongs_to :creator, User
+    belongs_to :creator, User, foreign_key: :creator_id
     has_many :questions, Question
     has_many :games, Game
   end

@@ -4,6 +4,8 @@ defmodule QuizlyModel.Quizzes.Option do
   alias QuizlyModel.Quizzes.Question
   alias QuizlyModel.Games.UserAnswer
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "options" do
     field :text, :string
     field :is_correct, :boolean

@@ -4,6 +4,8 @@ defmodule QuizlyModel.Games.RoundScore do
   alias QuizlyModel.Accounts.User
   alias QuizlyModel.Games.Round
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
   schema "round_scores" do
     field :scores, :integer, default: 0
     belongs_to :user, User
