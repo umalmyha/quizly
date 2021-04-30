@@ -4,6 +4,7 @@ defmodule QuizlyModel.Accounts.User do
   alias QuizlyModel.Quizzes.Quiz
   alias QuizlyModel.Games.RoundScore
   alias QuizlyModel.Games.UserAnswer
+  alias QuizlyModel.Accounts.RefreshToken
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "users" do
@@ -15,6 +16,7 @@ defmodule QuizlyModel.Accounts.User do
     has_many :quizzes, Quiz, foreign_key: :creator_id
     has_many :round_scores, RoundScore
     has_many :user_answers, UserAnswer
+    has_many :refresh_tokens, RefreshToken
     timestamps()
   end
 

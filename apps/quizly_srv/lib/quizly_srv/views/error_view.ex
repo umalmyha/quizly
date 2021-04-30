@@ -1,19 +1,17 @@
 defmodule QuizlySrv.ErrorView do
   use QuizlySrv, :view
 
-  # If you want to customize a particular status code
-  # for a certain format, you may uncomment below.
-  # def render("500.json", _assigns) do
-  #   %{errors: %{detail: "Internal Server Error"}}
-  # end
-
   def render("400.json", %{changeset: changeset}) do
     %{errors: translate_changeset_errors(changeset)}
   end
 
-  # By default, Phoenix returns the status message from
-  # the template name. For example, "404.json" becomes
-  # "Not Found".
+  def render("401.json", %{auth_error: error}) do
+    case error do
+      :invalid_username -> %{message: "User doesn't exist"}
+      :invalid_password -> %{message: "Invalid password"}
+    end
+  end
+
   def template_not_found(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end

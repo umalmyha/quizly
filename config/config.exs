@@ -22,6 +22,12 @@ config :quizly_srv, QuizlySrv.Endpoint,
 
 config :quizly_model, ecto_repos: [QuizlyModel.Repo]
 
+config :quizly_srv, QuizlySrv.Guardian.GuardianImpl,
+  issuer: "quizly_srv",
+  secret_key: "r0PcqomkpQ8VaVvuc2rARMHuuyTZMAi+Ld+AvbMZFYYOj9PBRfxzKsrbEkFZnX3t",
+  ttl: {10, :minutes},
+  verify_issuer: true
+
 # Sample configuration:
 #
 #     config :logger, :console,
