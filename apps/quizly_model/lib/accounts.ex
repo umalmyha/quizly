@@ -2,6 +2,7 @@ defmodule QuizlyModel.Accounts do
   alias QuizlyModel.Repo
   alias QuizlyModel.Accounts.User
   alias QuizlyModel.Accounts.RefreshToken
+  alias QuizlyModel.Accounts.RefreshVerification
 
   def list_users(), do: Repo.all(User)
 
@@ -10,14 +11,13 @@ defmodule QuizlyModel.Accounts do
   def delete_user(%User{} = user), do: Repo.delete(user)
 
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset_for_create(attrs)
+    User.creation_changeset(attrs)
     |> Repo.insert()
   end
 
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset_for_update(attrs)
+    |> User.modification_changeset(attrs)
     |> Repo.update()
   end
 
@@ -34,17 +34,33 @@ defmodule QuizlyModel.Accounts do
     end
   end
 
-  def create_refresh_token(attrs \\ %{}) do
-    %RefreshToken{}
-    |> RefreshToken.changeset(attrs)
+  def save_refresh_token(attrs \\ %{}) do
+    RefreshToken.creation_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def verify_refresh(%RefreshToken{} = refresh_token, jwt_attrs \\ %{}) do
+    changeset =
+      build_refresh_verification_from_token(refresh_token, jwt_attrs)
+      |> RefreshVerification.changeset()
+
+    case changeset.valid? do
+      true -> {:ok, changeset}
+      false -> {:error, changeset}
+    end
   end
 
   def update_refresh_token(%RefreshToken{} = refresh_token, attrs \\ %{}) do
     refresh_token
-    |> RefreshToken.changeset(attrs)
+    |> RefreshToken.modification_changeset(attrs)
     |> Repo.update()
   end
 
-  def get_refresh_token(token), do: Repo.get(RefreshToken, token)
+  def get_token_by_sign(sign), do: Repo.get_by(RefreshToken, token: sign)
+
+  defp build_refresh_verification_from_token(refresh_token, jwt_attrs) do
+    refresh_token
+    |> Map.take([:jwt_id, :invalidated, :expiry_date])
+    |> Map.merge(jwt_attrs)
+  end
 end

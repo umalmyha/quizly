@@ -1,6 +1,7 @@
 defmodule QuizlyModel.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias QuizlyModel.Accounts.User
   alias QuizlyModel.Quizzes.Quiz
   alias QuizlyModel.Games.RoundScore
   alias QuizlyModel.Games.UserAnswer
@@ -20,14 +21,14 @@ defmodule QuizlyModel.Accounts.User do
     timestamps()
   end
 
-  def changeset_for_create(user, attrs \\ %{}) do
-    user
+  def creation_changeset(attrs \\ %{}) do
+    %User{}
     |> cast(attrs, [:username, :name, :surname, :password])
     |> validate_creation_changeset()
     |> put_password_hash()
   end
 
-  def changeset_for_update(user, attrs \\ %{}) do
+  def modification_changeset(user, attrs \\ %{}) do
     user
     |> cast(attrs, [:name, :surname])
     |> validate_update_changeset()

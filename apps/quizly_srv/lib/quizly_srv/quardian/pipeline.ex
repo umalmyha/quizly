@@ -5,5 +5,6 @@ defmodule QuizlySrv.Guardian.Pipeline do
     module: QuizlySrv.Guardian.GuardianImpl
 
   plug Guardian.Plug.VerifyHeader, realm: "Bearer", claims: %{"typ" => "access"}
-  plug Guardian.Plug.LoadResource, allow_blank: true
+  plug Guardian.Plug.LoadResource
+  plug Guardian.Plug.EnsureAuthenticated
 end

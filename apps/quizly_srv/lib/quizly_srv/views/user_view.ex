@@ -5,10 +5,6 @@ defmodule QuizlySrv.UserView do
     render_many(users, __MODULE__, "user.json")
   end
 
-  def render("show.json", %{user: user, jwt: jwt}) do
-    %{user: render_one(user, __MODULE__, "user.json"), jwt: jwt}
-  end
-
   def render("show.json", %{user: user}) do
     render_one(user, __MODULE__, "user.json")
   end

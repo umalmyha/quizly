@@ -1,28 +1,25 @@
 defmodule QuizlySrv.Router do
   use QuizlySrv, :router
 
-  pipeline :auth do
-    plug QuizlySrv.Guardian.Pipeline
-  end
-
   pipeline :ensure_auth do
-    plug Guardian.Plug.EnsureAuthenticated
+    plug QuizlySrv.Guardian.Pipeline
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/", QuizlySrv do
+  scope "/auth", QuizlySrv do
     pipe_through [:api]
 
     post "/signin", AuthController, :sign_in
     post "/signup", AuthController, :sign_up
     post "/refresh", AuthController, :refresh
+    post "/logout", AuthController, :logout
   end
 
   scope "/api", QuizlySrv do
-    pipe_through [:api, :auth, :ensure_auth]
+    pipe_through [:api, :ensure_auth]
 
     resources "/users", UserController, except: [:new, :edit]
     resources "/quizzes", QuizController, except: [:new, :edit]

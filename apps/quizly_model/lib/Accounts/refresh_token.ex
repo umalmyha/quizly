@@ -2,24 +2,28 @@ defmodule QuizlyModel.Accounts.RefreshToken do
   use Ecto.Schema
   import Ecto.Changeset
   alias QuizlyModel.Accounts.User
+  alias QuizlyModel.Accounts.RefreshToken
 
-  @primay_key {:token, :string, autogenerate: false}
+  @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "refresh_tokens" do
+    field :token, :string
     field :jwt_id, :binary_id
     field :invalidated, :boolean
     field :expiry_date, :date
     belongs_to :user, User
+    timestamps()
   end
 
-  def changeset(token, attrs \\ %{}) do
-    token
-    |> cast(attrs, [:token, :jwt_id, :invalidated, :expiry_date, :user_id])
-    |> validate_changeset()
+  def creation_changeset(attrs \\ %{}) do
+    %RefreshToken{}
+    |> cast(attrs, [:token, :jwt_id, :expiry_date, :user_id])
+    |> validate_required([:token, :jwt_id, :expiry_date, :user_id])
   end
 
-  defp validate_changeset(struct) do
-    struct
-    |> validate_required([:token, :jwt_id, :expirary_date, :user_id])
+  def modification_changeset(refresh_token, attrs \\ %{}) do
+    refresh_token
+    |> cast(attrs, [:jwt_id, :invalidated])
+    |> validate_required([:jwt_id, :invalidated])
   end
 end
